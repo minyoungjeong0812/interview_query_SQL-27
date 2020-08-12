@@ -1,0 +1,16 @@
+select CASE WHEN id in (select distinct s1.id
+from subscription s1, subscription s2
+where s1.id != s2.id
+and s1.start_date >= s2.start_date
+and s1.start_date <= s2.end_date
+
+union
+
+select distinct s2.id
+from subscription s1, subscription s2
+where s1.id != s2.id
+and s1.start_date >= s2.start_date
+and s1.start_date <= s2.end_date) then 'TRUE' else 'FALSE' END as overlap
+
+from subscription
+
